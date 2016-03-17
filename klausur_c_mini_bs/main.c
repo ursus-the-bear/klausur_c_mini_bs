@@ -31,9 +31,9 @@ void myPoll (task_t * self) {
 }
 void processEvent (task_t * self, uint16_t taskID) {
     if (taskID == self->taskID) {
-        printf ("in process. taskID: %i not my task!", self->taskID);
+        printf ("in process. taskID: %i YAY my task (%i)!\n", self->taskID, taskID);
     } else {
-        printf ("in process. taskID: %i YAY my task (%i)!", self->taskID, taskID);
+        printf ("in process. taskID: %i not my task!\n", self->taskID);
     }
 }
 
@@ -48,6 +48,7 @@ void createTask (task_t ** taskList, uint16_t eventID) {
     newTask->poll = &myPoll;
     newTask->processEvent = &processEvent;
     newTask->init (newTask, taskID, eventID);
+    newTask->next_task = NULL;
     taskID++;
     
     // get the end of the list
@@ -73,7 +74,7 @@ int main(int argc, const char * argv[]) {
     createTask (&tasks, 20);
     createTask (&tasks, 30);
     
-    uint16_t i = 10;
+    uint16_t i = 1;
     while (1 == 1) {
         task_t * currElement;
         currElement = tasks;
